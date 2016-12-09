@@ -19,6 +19,10 @@ module.exports = {
                 query: {
                     presets: ["es2015"]
                 }
+            },
+            {
+              test: /\.html$/,
+              loader: "file-loader?name=[name].[ext]!extract-loader!html-loader"
             }
         ]
     }
