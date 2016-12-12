@@ -1,1 +1,17 @@
-export default "i'm TodoList model";
+import Backbone from 'backbone';
+import LocalStorage from "backbone.localStorage";
+import TodoModel from './TodoModel';
+
+const TodoList = Backbone.Collection.extend({
+	model: TodoModel,
+	localStorage: new Backbone.LocalStorage('todo-list-backbone'),
+	comparator: 'order',
+	nextOrder(){
+		return this.length !== 0 ? (this.last().get('order') + 1):1;
+	},
+	getThoseWhich(isCompleted) {
+		return this.where({isCompleted: isCompleted});
+	}
+});
+
+export default TodoList;

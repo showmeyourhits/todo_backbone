@@ -10,7 +10,17 @@ module.exports = {
 	    port: 4444,
 	    contentBase: "./dist"
 	},
+    eslint:{
+        configFile: '.eslintrc'
+    },
   module: {
+        preLoaders: [
+            // {
+            //     test: /\.js$/,
+            //     exclude: [/node_modules/],
+            //     loader: "eslint-loader"
+            // }
+        ],
         loaders: [
             {
                 test: /\.js$/,
@@ -21,8 +31,8 @@ module.exports = {
                 }
             },
             {
-              test: /\.html$/,
-              loader: "file-loader?name=[name].[ext]!extract-loader!html-loader"
+                test: /\.css$/,
+                loader: "style-loader!css-loader"
             }
         ]
     }
