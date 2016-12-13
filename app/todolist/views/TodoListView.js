@@ -8,28 +8,27 @@ import statsTemp from './../templates/todo_stats.js';
 const todoList = new TodoList();
 const TodoListView = Backbone.View.extend({
 	el: '#app',
-	
 	events: {
 		'keypress #create-new': 'createTodoEntry',
 		'click #complete-all': 'completeAll',
-		'click #delete-completed': "deleteCompleted",
+		'click #delete-completed': 'deleteCompleted',
 	},
 	initialize() {
 		this.listenTo(todoList, 'add', this.addView);
-		this.listenTo(todoList, 'add destroy change', this.render);
-		this.main = this.$(".todo-main");
-		this.stats = this.$(".todo-stats");
-		this.all = this.$("#complete-all");
+		this.listenTo(todoList, 'add destroy change:isCompleted', this.render);
+		this.main = this.$('.todo-app__main');
+		this.stats = this.$('.todo-app__stats');
+		this.all = this.$('#complete-all');
 		this.statsTemp = _.template(statsTemp);
 
 		todoList.fetch();
 	},
 
-	render(ev) {
-		let remaining = todoList.getThoseWhich(false).length;
+	render() {
+		const remaining = todoList.getThoseWhich(false).length;
 		this.all[0].checked = remaining === 0;
-		if(todoList.length){
-			let stats = {
+		if (todoList.length) {
+			const stats = {
 				done: todoList.getThoseWhich(true).length,
 				undone: remaining,
 			};
@@ -37,7 +36,7 @@ const TodoListView = Backbone.View.extend({
 			this.main.show();
 			this.stats.html(this.statsTemp(stats));
 			this.stats.show();
-		}else{
+		} else {
 			this.all.parent().hide();
 			this.main.hide();
 			this.stats.hide();
@@ -53,9 +52,7 @@ const TodoListView = Backbone.View.extend({
 		this.$('#todo-list').append(view.el);
 	},
 	createTodoEntry(ev) {
-		if (ev.keyCode !== 13 || ev.target.value === '') {
-
-		} else {
+		if (ev.keyCode === 13 && ev.target.value !== '') {
 			todoList.create({
 				title: ev.target.value,
 				order: todoList.nextOrder(),
@@ -72,10 +69,10 @@ const TodoListView = Backbone.View.extend({
 		});
 	},
 	deleteCompleted() {
-		todoList.getThoseWhich(true).forEach((model)=>{
+		todoList.getThoseWhich(true).forEach((model) => {
 			model.destroy();
 		});
-	}
+	},
 });
 
 export default TodoListView;

@@ -1,44 +1,47 @@
-.todo-view{
+.todo{
+	$root: &;
+
 	position: relative;
 	padding: 10px 0px;
 	border-bottom: 1px solid lightgray;
 	font-size: 1.5rem;
-}
 
-.todo-remove{
-	cursor: pointer;
-	display: none;
-	position: absolute;
-	right: 5px;
-	border-radius: 20px;
-	border:none;
-	background: #E6E6E6;
-	color:#666765;
-	font-size: 1rem;
-}
+	&__btn-delete{
+		cursor: pointer;
+		display: none;
+		position: absolute;
+		right: 5px;
+		border-radius: 20px;
+		border:none;
+		background: #E6E6E6;
+		color:#666765;
+		font-size: 1rem;
 
-.todo-view:hover .todo-remove{
-	display: inline-block;
-}
-.todo-remove:hover{
-	background: #272822;
-	color: white;
-}
+		&:hover{
+			background: #272822;
+			color: white;
+		}
+	}
+	&:hover{
+		#{$root}__btn-delete{
+			display: inline-block;		
+		}
+	}
+	&__edit{
+		display: none;
+		height: 3rem;
+		padding: 5px;
+	}
+	&--editing{
+		padding: 0px;
 
-.editing{
-	padding: 0px;
-}
-.editing .todo-content{
-	display: none;
-}
+		#{$root}__content{
+			display: none;
+		}
 
-.todo-edit{
-	display: none;
-	height: 3rem;
-	padding: 5px;
-}
-
-.editing .todo-edit{
-	display: inline-block;
-	width: 100%;
+		#{$root}__edit{
+			display: inline-block;
+			width: 100%;
+		}
+	}
 }
