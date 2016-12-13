@@ -1,0 +1,8 @@
+.todo-stats{
+	position: relative;
+}
+.todo-stats__done{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}

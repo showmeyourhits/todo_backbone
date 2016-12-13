@@ -18,8 +18,8 @@ const TodoListView = Backbone.View.extend({
 		this.listenTo(todoList, 'add', this.addView);
 		this.listenTo(todoList, 'add destroy change', this.render);
 		this.main = this.$(".todo-main");
-		this.stats = this.$(".stats");
-		this.all = this.$("#complete-all")[0];
+		this.stats = this.$(".todo-stats");
+		this.all = this.$("#complete-all");
 		this.statsTemp = _.template(statsTemp);
 
 		todoList.fetch();
@@ -27,16 +27,18 @@ const TodoListView = Backbone.View.extend({
 
 	render(ev) {
 		let remaining = todoList.getThoseWhich(false).length;
-		this.all.checked = remaining === 0;
+		this.all[0].checked = remaining === 0;
 		if(todoList.length){
 			let stats = {
 				done: todoList.getThoseWhich(true).length,
 				undone: remaining,
 			};
+			this.all.parent().show();
 			this.main.show();
 			this.stats.html(this.statsTemp(stats));
 			this.stats.show();
 		}else{
+			this.all.parent().hide();
 			this.main.hide();
 			this.stats.hide();
 		}

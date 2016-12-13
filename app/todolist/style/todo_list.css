@@ -1,0 +1,30 @@
+body{
+	background-color: #E6E6E6;
+	font-family: monospace;
+	color: #272822;
+	margin-top: 0px;
+}
+#app{
+	width: 600px;
+	margin: auto;
+	background-color: #FFFFFF;
+	padding: 1em;
+}
+.todo-title{
+	text-align: center;
+}
+#todo-list{
+	list-style: none;
+	padding-left: 0px;
+}
+
+.text-input{
+	display: block;
+	width: 100%;
+	padding: 5px;
+	font-size: 1.5rem;
+	font-family: monospace;
+}
+.complete-all{
+	display: none;
+}
