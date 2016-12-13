@@ -6,7 +6,7 @@ import statsTemp from './../templates/todo_stats.js';
 
 
 const todoList = new TodoList();
-const TodoListView = Backbone.View.extend({
+export default Backbone.View.extend({
 	el: '#app',
 	events: {
 		'keypress #create-new': 'createTodoEntry',
@@ -14,8 +14,8 @@ const TodoListView = Backbone.View.extend({
 		'click #delete-completed': 'deleteCompleted',
 	},
 	initialize() {
-		this.listenTo(todoList, 'add', this.addView);
 		this.listenTo(todoList, 'add destroy change:isCompleted', this.render);
+		this.listenToOnce(todoList, 'sync', this.renderList);
 		this.main = this.$('.todo-app__main');
 		this.stats = this.$('.todo-app__stats');
 		this.all = this.$('#complete-all');
@@ -25,11 +25,11 @@ const TodoListView = Backbone.View.extend({
 	},
 
 	render() {
-		const remaining = todoList.getThoseWhich(false).length;
+		const remaining = todoList.filterCompleted(false).length;
 		this.all[0].checked = remaining === 0;
 		if (todoList.length) {
 			const stats = {
-				done: todoList.getThoseWhich(true).length,
+				done: todoList.filterCompleted(true).length,
 				undone: remaining,
 			};
 			this.all.parent().show();
@@ -42,14 +42,19 @@ const TodoListView = Backbone.View.extend({
 			this.stats.hide();
 		}
 	},
-
+	renderList() {
+		console.log('rendering full list');
+		todoList.forEach((model) => {
+			this.addView(model);
+		});
+		this.listenTo(todoList, 'add', this.addView);
+	},
 	addView(model) {
 		const view = new TodoView({
 			model,
 		});
 
-		view.render();
-		this.$('#todo-list').append(view.el);
+		this.$('#todo-list').append(view.render().el);
 	},
 	createTodoEntry(ev) {
 		if (ev.keyCode === 13 && ev.target.value !== '') {
@@ -69,10 +74,6 @@ const TodoListView = Backbone.View.extend({
 		});
 	},
 	deleteCompleted() {
-		todoList.getThoseWhich(true).forEach((model) => {
-			model.destroy();
-		});
+		_.invoke(todoList.filterCompleted(true), "destroy");
 	},
 });
-
-export default TodoListView;

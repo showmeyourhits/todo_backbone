@@ -5,26 +5,59 @@
 	padding: 10px 0px;
 	border-bottom: 1px solid lightgray;
 	font-size: 1.5rem;
-
-	&__btn-delete{
-		cursor: pointer;
+	&__content{
+		padding-right: 85px;
+	}
+	&__order{
+		position: absolute;
+		right: 40px;
+		top: 5px;
 		display: none;
+
+		&-btn{
+			display: block;
+		}
+	}
+	&:first-child{
+		#{$root}__order-btn--up{
+			visibility: hidden;
+			// display: none;
+		}
+	}
+	&:last-child{
+		#{$root}__order-btn--down{
+			visibility: hidden;
+			// display: none;
+		}
+	}
+	&__btn-delete{
 		position: absolute;
 		right: 5px;
+		top: 10px;
+		font-size: 1rem;
+		display: none;
+	}
+	&__btn-delete,
+	&__order-btn{
+		cursor: pointer;
 		border-radius: 20px;
 		border:none;
 		background: #E6E6E6;
 		color:#666765;
-		font-size: 1rem;
+		
 
 		&:hover{
 			background: #272822;
 			color: white;
 		}
 	}
+
 	&:hover{
 		#{$root}__btn-delete{
 			display: inline-block;		
+		}
+		#{$root}__order{
+			display: block;
 		}
 	}
 	&__edit{

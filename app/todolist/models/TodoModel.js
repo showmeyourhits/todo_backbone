@@ -1,6 +1,6 @@
 import Backbone from 'backbone';
 
-const TodoModel = Backbone.Model.extend({
+export default Backbone.Model.extend({
 	defaults: {
 		isCompleted: false,
 		title: '',
@@ -13,5 +13,3 @@ const TodoModel = Backbone.Model.extend({
 		});
 	},
 });
-
-export default TodoModel;
